@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<!-- ============================================================================
+     ARNOLD HE — PERSONAL PORTFOLIO
+     ----------------------------------------------------------------------------
+     QUICK-START EDITING GUIDE (read me!):
+       • Text:    Every section is wrapped in clearly labelled "EDIT" comments.
+       • Photo:   assets/profile.jpg  (replace this file, keep the name, or update the src)
+       • Resume:  assets/Arnold_He_Resume.pdf  (replace this file or update the href)
+       • Colors:  edit assets/styles.css  (:root = light theme, .dark = dark theme)
+       • Links:   search for "EDIT LINK" to update LinkedIn / GitHub / X / email
+     No build step required. Just open index.html or push the folder to GitHub Pages.
+============================================================================= -->
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- EDIT: Browser tab title & description (good for SEO) -->
+  <title>Arnold He — Economics & Quantitative Finance</title>
+  <meta name="description" content="Arnold He — Economics student at Claremont McKenna College focused on quantitative finance, valuation, and derivatives. NCAA Division III national champion golfer." />
+
+  <!-- Google Fonts: Fraunces (display) + Hanken Grotesk (body). To change fonts, swap here and in styles.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via Play CDN (no build step needed for GitHub Pages) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Map Tailwind utility names to our CSS variables so classes like
+    // "bg-bg", "text-ink", "border-line", "text-accent" all work.
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            bg: "rgb(var(--bg) / <alpha-value>)", "bg-alt": "rgb(var(--bg-alt) / <alpha-value>)",
+            surface: "rgb(var(--surface) / <alpha-value>)", ink: "rgb(var(--ink) / <alpha-value>)",
+            "ink-soft": "rgb(var(--ink-soft) / <alpha-value>)", muted: "rgb(var(--muted) / <alpha-value>)",
+            line: "rgb(var(--line) / <alpha-value>)", accent: "rgb(var(--accent) / <alpha-value>)",
+            "accent-soft": "rgb(var(--accent-soft) / <alpha-value>)", "accent-tint": "rgb(var(--accent-tint) / <alpha-value>)",
+          },
+          fontFamily: {
+            display: ['"Fraunces"', "serif"],
+            sans: ['"Hanken Grotesk"', "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Our custom stylesheet (relative path — stays valid on GitHub Pages) -->
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <!-- Prevent dark-mode "flash": apply saved theme before the page paints -->
+  <script>
+    if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+</head>
+
+<body class="grain antialiased selection:bg-accent selection:text-white">
+
+  <!-- ========================================================================
+       NAVBAR  (sticky top)  — EDIT nav links / logo text here
+  ========================================================================= -->
+  <header class="fixed top-0 inset-x-0 z-40 backdrop-blur-md bg-bg/80 border-b border-line/60">
+    <nav class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+
+      <!-- EDIT: Logo / monogram (left) -->
+      <a href="#home" class="font-display text-xl font-semibold tracking-tight">
+        Arnold <span class="text-accent">He</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#about"      class="text-ink-soft hover:text-accent">About</a>
+        <a href="#experience" class="text-ink-soft hover:text-accent">Experience</a>
+        <a href="#skills"     class="text-ink-soft hover:text-accent">Skills</a>
+        <a href="#projects"   class="text-ink-soft hover:text-accent">Projects</a>
+        <a href="#contact"    class="text-ink-soft hover:text-accent">Contact</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Dark / light mode toggle (JS in assets/script.js handles it) -->
+        <button id="theme-toggle" aria-label="Toggle dark mode"
+                class="grid place-items-center w-10 h-10 rounded-full border border-line hover:border-accent text-ink-soft hover:text-accent transition">
+          <!-- sun icon (shown in dark mode) -->
+          <svg class="hidden dark:block w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+          <!-- moon icon (shown in light mode) -->
+          <svg class="block dark:hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+        </button>
+
+        <!-- Mobile hamburger (JS toggles the menu below) -->
+        <button id="menu-btn" aria-label="Open menu"
+                class="md:hidden grid place-items-center w-10 h-10 rounded-full border border-line text-ink">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile dropdown menu (hidden by default) -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-line bg-bg px-6 py-4 flex-col gap-4 text-sm font-medium">
+      <a href="#about"      class="block py-2 text-ink-soft hover:text-accent">About</a>
+      <a href="#experience" class="block py-2 text-ink-soft hover:text-accent">Experience</a>
+      <a href="#skills"     class="block py-2 text-ink-soft hover:text-accent">Skills</a>
+      <a href="#projects"   class="block py-2 text-ink-soft hover:text-accent">Projects</a>
+      <a href="#contact"    class="block py-2 text-ink-soft hover:text-accent">Contact</a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO SECTION  — EDIT headline, bio, and CTA buttons here
+  ========================================================================= -->
+  <section id="home" class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 pt-32 pb-24 lg:pt-44 lg:pb-32">
+    <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+      <!-- Left: text -->
+      <div class="lg:col-span-7 order-2 lg:order-1">
+        <!-- EDIT: small eyebrow label -->
+        <p class="animate-in text-sm font-semibold tracking-[0.25em] uppercase text-accent" style="animation-delay:.05s">
+          Economics &middot; Claremont McKenna College
+        </p>
+
+        <!-- EDIT: main headline -->
+        <h1 class="animate-in font-display font-semibold leading-[0.95] tracking-tight mt-5 text-5xl sm:text-6xl lg:text-7xl" style="animation-delay:.15s">
+          Arnold He
+        </h1>
+
+        <!-- EDIT: tagline under the name -->
+        <p class="animate-in font-display italic text-2xl sm:text-3xl text-ink-soft mt-4" style="animation-delay:.25s">
+          Quantitative finance, with a competitor&rsquo;s discipline.
+        </p>
+
+        <!-- EDIT: short bio paragraph -->
+        <p class="animate-in max-w-xl text-base sm:text-lg text-ink-soft leading-relaxed mt-7" style="animation-delay:.35s">
+          I pair rigorous financial analysis &mdash; valuation, derivatives pricing, and risk
+          modeling &mdash; with the focus and resilience of an NCAA Division III national
+          champion golfer. I like hard problems, clean models, and winning as a team.
+        </p>
+
+        <!-- EDIT: call-to-action buttons -->
+        <div class="animate-in flex flex-wrap items-center gap-4 mt-9" style="animation-delay:.45s">
+          <a href="#projects"
+             class="group inline-flex items-center gap-2 rounded-full bg-accent text-white px-7 py-3.5 text-sm font-semibold hover:bg-accent-soft hover:-translate-y-0.5 transition-all shadow-sm">
+            View Work
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#contact"
+             class="inline-flex items-center gap-2 rounded-full border border-line hover:border-accent text-ink px-7 py-3.5 text-sm font-semibold hover:-translate-y-0.5 transition-all">
+            Contact Me
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: profile photo with decorative arc -->
+      <div class="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end">
+        <div class="animate-in relative w-64 sm:w-80 lg:w-full max-w-sm" style="animation-delay:.3s">
+          <!-- Decorative rotating dashed ring (purely cosmetic) -->
+          <svg class="arc-spin absolute -inset-5 w-[calc(100%+2.5rem)] h-[calc(100%+2.5rem)] text-accent/30" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="0.5" stroke-dasharray="2 4"/>
+          </svg>
+          <!-- Soft accent block behind photo for depth -->
+          <div class="absolute -bottom-4 -right-4 w-full h-full rounded-[2rem] bg-accent-tint -z-10"></div>
+          <!-- EDIT IMAGE: replace assets/profile.jpg (keep filename) or change src below -->
+          <img src="assets/profile.jpg" alt="Portrait of Arnold He"
+               class="relative w-full aspect-square object-cover object-top rounded-[2rem] border border-line shadow-[var(--shadow)]" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       ABOUT SECTION  — EDIT your story + résumé download here
+  ========================================================================= -->
+  <section id="about" class="relative z-10 bg-bg-alt border-y border-line">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-24 lg:py-32 grid lg:grid-cols-12 gap-12">
+
+      <!-- Section label -->
+      <div class="lg:col-span-4 reveal">
+        <p class="text-sm font-semibold tracking-[0.25em] uppercase text-muted">01 &mdash; About</p>
+        <h2 class="font-display font-semibold text-4xl sm:text-5xl mt-4 leading-tight">A builder&rsquo;s mindset, on and off the course.</h2>
+      </div>
+
+      <!-- Story text -->
+      <div class="lg:col-span-8 reveal" style="transition-delay:.1s">
+        <div class="space-y-6 text-lg text-ink-soft leading-relaxed">
+          <!-- EDIT: about paragraphs -->
+          <p>
+            I&rsquo;m a junior at <strong class="text-ink font-semibold">Claremont McKenna College</strong> studying
+            Economics (GPA 3.8), where I turn classroom theory into hands-on quantitative work &mdash;
+            from valuing companies across Harvard Business School cases to pricing equity derivatives
+            with Black-Scholes-Merton models and hedging portfolios using the Greeks.
+          </p>
+          <p>
+            Off the page, I compete for the <strong class="text-ink font-semibold">Claremont-Mudd-Scripps Men&rsquo;s Golf
+            Team</strong>, which captured the NCAA Division III National Championship. Golf taught me what
+            finance demands: discipline under pressure, precise decision-making, and the patience to grind
+            through complex problems one shot &mdash; or one model &mdash; at a time.
+          </p>
+          <p>
+            Whether I&rsquo;m stress-testing a valuation or rallying my team back from a 13-stroke deficit,
+            I bring the same things: preparation, composure, and a genuine drive to win.
+          </p>
+        </div>
+
+        <!-- EDIT RESUME LINK: points to the PDF in /assets. Replace the file or change href. -->
+        <!-- <a href="assets/Arnold_He_Resume.pdf" download -->
+           class="group inline-flex items-center gap-3 mt-10 rounded-full border border-accent text-accent px-7 py-3.5 text-sm font-semibold hover:bg-accent hover:text-white transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+          Download Résumé
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       EXPERIENCE SECTION  (vertical timeline)
+       To ADD an entry: copy one <li class="timeline-item"> ... </li> block.
+  ========================================================================= -->
+  <section id="experience" class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
+    <div class="reveal mb-16">
+      <p class="text-sm font-semibold tracking-[0.25em] uppercase text-muted">02 &mdash; Experience</p>
+      <h2 class="font-display font-semibold text-4xl sm:text-5xl mt-4">Where I&rsquo;ve been sharpening.</h2>
+    </div>
+
+    <!-- Timeline. The vertical line is the left border on the <ol>. -->
+    <ol class="relative border-l border-line ml-2 sm:ml-4 space-y-12">
+
+      <!-- TIMELINE ENTRY (template) -->
+      <li class="timeline-item reveal relative pl-8 sm:pl-12">
+        <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-bg"></span>
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h3 class="font-display font-semibold text-xl text-ink">Quantitative Analyst <span class="text-muted font-sans text-sm font-medium">(Academic Project)</span></h3>
+          <span class="text-sm font-semibold text-accent">Jan 2026 &ndash; May 2026</span>
+        </div>
+        <p class="text-ink-soft font-semibold mt-1">Financial Derivatives &amp; Risk Management Case Studies</p>
+        <ul class="mt-3 space-y-2 text-ink-soft list-disc list-outside ml-5 marker:text-accent">
+          <li>Built option-pricing models with Black-Scholes-Merton and multi-period binomial trees to flag mispriced equity derivatives.</li>
+          <li>Designed a dynamic hedging strategy using the Greeks (&Delta;, &Gamma;, &nu;) to immunize a portfolio against volatility shocks.</li>
+          <li>Analyzed credit default swaps and fixed-income derivatives to assess institutional credit risk and debt valuation.</li>
+        </ul>
+      </li>
+
+      <li class="timeline-item reveal relative pl-8 sm:pl-12">
+        <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-bg"></span>
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h3 class="font-display font-semibold text-xl text-ink">Corporate Finance Analyst <span class="text-muted font-sans text-sm font-medium">(Course Project)</span></h3>
+          <span class="text-sm font-semibold text-accent">Aug 2025 &ndash; Dec 2025</span>
+        </div>
+        <p class="text-ink-soft font-semibold mt-1">Claremont McKenna College &mdash; Claremont, CA</p>
+        <ul class="mt-3 space-y-2 text-ink-soft list-disc list-outside ml-5 marker:text-accent">
+          <li>Ran valuation and investment analyses across multiple HBS cases using NPV, IRR, DCF, WACC, APV, and beta regression.</li>
+          <li>Modeled capital structure decisions &mdash; recapitalizations and interest tax shields &mdash; measuring impact on credit quality and shareholder value.</li>
+          <li>Delivered scenario-driven recommendations backed by sensitivity analysis across market conditions.</li>
+        </ul>
+      </li>
+
+      <li class="timeline-item reveal relative pl-8 sm:pl-12">
+        <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-bg"></span>
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h3 class="font-display font-semibold text-xl text-ink">Member, CMS Men&rsquo;s Golf Team</h3>
+          <span class="text-sm font-semibold text-accent">Aug 2024 &ndash; Present</span>
+        </div>
+        <p class="text-ink-soft font-semibold mt-1">Claremont-Mudd-Scripps &mdash; NCAA Division III</p>
+        <ul class="mt-3 space-y-2 text-ink-soft list-disc list-outside ml-5 marker:text-accent">
+          <li>Contributed to the team&rsquo;s NCAA Division III National Championship title.</li>
+          <li>Rallied from a 13-stroke deficit to capture the SCIAC Conference Championship; earned First-Team All-SCIAC and SCIAC All-Academic honors.</li>
+        </ul>
+      </li>
+
+      <li class="timeline-item reveal relative pl-8 sm:pl-12">
+        <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-bg"></span>
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h3 class="font-display font-semibold text-xl text-ink">Budgeting Committee &mdash; Student-Athlete Advisory Committee</h3>
+          <span class="text-sm font-semibold text-accent">Sep 2025 &ndash; Present</span>
+        </div>
+        <ul class="mt-3 space-y-2 text-ink-soft list-disc list-outside ml-5 marker:text-accent">
+          <li>Manage a $5,000 budget for student-athlete events, allocating funds to maximize campus engagement.</li>
+          <li>Partner with campus organizations to co-promote programming and grow attendance.</li>
+        </ul>
+      </li>
+
+      <li class="timeline-item reveal relative pl-8 sm:pl-12">
+        <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-bg"></span>
+        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <h3 class="font-display font-semibold text-xl text-ink">Captain, Varsity Golf Team</h3>
+          <span class="text-sm font-semibold text-accent">Aug 2022 &ndash; May 2024</span>
+        </div>
+        <p class="text-ink-soft font-semibold mt-1">Mission San Jose High School &mdash; Fremont, CA</p>
+        <ul class="mt-3 space-y-2 text-ink-soft list-disc list-outside ml-5 marker:text-accent">
+          <li>Named a Rolex Scholastic Junior All-American &mdash; one of only 20 recipients nationwide.</li>
+          <li>Led a 20-member team and spearheaded an $11,000 fundraiser for new equipment.</li>
+        </ul>
+      </li>
+      <!-- END TIMELINE ENTRIES -->
+    </ol>
+  </section>
+
+  <!-- ========================================================================
+       SKILLS SECTION  (categorized grid)
+       To ADD a skill: add a <span class="skill-pill"> ... </span> inside a column.
+  ========================================================================= -->
+  <section id="skills" class="relative z-10 bg-bg-alt border-y border-line">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
+      <div class="reveal mb-16">
+        <p class="text-sm font-semibold tracking-[0.25em] uppercase text-muted">03 &mdash; Skills</p>
+        <h2 class="font-display font-semibold text-4xl sm:text-5xl mt-4">The toolkit.</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- CATEGORY 1 -->
+        <div class="reveal bg-surface border border-line rounded-2xl p-7 hover:-translate-y-1 hover:shadow-[var(--shadow)] transition-all">
+          <div class="w-11 h-11 grid place-items-center rounded-xl bg-accent-tint text-accent mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18M3 12h18M3 18h12"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-4">Quantitative &amp; Finance</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Financial Modeling (DCF, WACC, APV)</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Option Pricing (BSM, Binomial)</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Valuation &amp; Capital Budgeting</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Risk Management</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Regression Analysis</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Fixed Income &amp; CDS</span>
+          </div>
+        </div>
+
+        <!-- CATEGORY 2 -->
+        <div class="reveal bg-surface border border-line rounded-2xl p-7 hover:-translate-y-1 hover:shadow-[var(--shadow)] transition-all" style="transition-delay:.1s">
+          <div class="w-11 h-11 grid place-items-center rounded-xl bg-accent-tint text-accent mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-4 3 4 3m8-6l4 3-4 3M14 5l-4 14"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-4">Programming &amp; Tools</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Python</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Java</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">C++</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Excel / Modeling</span>
+          </div>
+        </div>
+
+        <!-- CATEGORY 3 -->
+        <div class="reveal bg-surface border border-line rounded-2xl p-7 hover:-translate-y-1 hover:shadow-[var(--shadow)] transition-all" style="transition-delay:.2s">
+          <div class="w-11 h-11 grid place-items-center rounded-xl bg-accent-tint text-accent mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM3 21a6 6 0 0118 0"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-4">Leadership &amp; Strategy</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Team Captaincy</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Budget Management</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Peer Mentorship</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Decision-Making Under Pressure</span>
+            <span class="skill-pill inline-block text-sm text-ink-soft bg-accent-tint/60 border border-line rounded-full px-3.5 py-1.5">Fundraising</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       PROJECTS SECTION  (portfolio grid)
+       The LAST card is a clearly-labelled TEMPLATE — copy it to add your own.
+  ========================================================================= -->
+  <section id="projects" class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-24 lg:py-32">
+    <div class="reveal mb-16">
+      <p class="text-sm font-semibold tracking-[0.25em] uppercase text-muted">04 &mdash; Projects</p>
+      <h2 class="font-display font-semibold text-4xl sm:text-5xl mt-4">Selected work.</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+
+      <!-- PROJECT CARD 1 -->
+      <article class="reveal group bg-surface border border-line rounded-2xl p-7 hover:-translate-y-1 hover:shadow-[var(--shadow)] transition-all flex flex-col">
+        <div class="flex items-start justify-between">
+          <h3 class="font-display font-semibold text-2xl">Derivatives Pricing &amp; Hedging</h3>
+          <svg class="w-5 h-5 text-muted group-hover:text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8"/></svg>
+        </div>
+        <p class="text-ink-soft mt-3 flex-grow">Priced mispriced equity options with Black-Scholes-Merton and binomial trees, then built a Greeks-based hedge to neutralize volatility risk on a model portfolio.</p>
+        <div class="flex flex-wrap gap-2 mt-5">
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">Black-Scholes-Merton</span>
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">The Greeks</span>
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">Excel</span>
+        </div>
+        <!-- EDIT LINK: replace # with your project URL (GitHub repo, PDF, write-up, etc.) -->
+        <a href="#" class="inline-flex items-center gap-1.5 text-sm font-semibold text-accent mt-6 hover:gap-2.5 transition-all">View Project <span aria-hidden="true">&rarr;</span></a>
+      </article>
+
+      <!-- PROJECT CARD 2 -->
+      <article class="reveal group bg-surface border border-line rounded-2xl p-7 hover:-translate-y-1 hover:shadow-[var(--shadow)] transition-all flex flex-col" style="transition-delay:.1s">
+        <div class="flex items-start justify-between">
+          <h3 class="font-display font-semibold text-2xl">Corporate Valuation Cases</h3>
+          <svg class="w-5 h-5 text-muted group-hover:text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8"/></svg>
+        </div>
+        <p class="text-ink-soft mt-3 flex-grow">A series of Harvard Business School valuations &mdash; DCF, APV, and capital-structure modeling &mdash; translating raw financials into clear investment recommendations.</p>
+        <div class="flex flex-wrap gap-2 mt-5">
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">DCF / APV</span>
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">WACC</span>
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">Capital Structure</span>
+        </div>
+        <a href="#" class="inline-flex items-center gap-1.5 text-sm font-semibold text-accent mt-6 hover:gap-2.5 transition-all">View Project <span aria-hidden="true">&rarr;</span></a>
+      </article>
+
+      <!-- PROJECT CARD 3 -->
+      <article class="reveal group bg-surface border border-line rounded-2xl p-7 hover:-translate-y-1 hover:shadow-[var(--shadow)] transition-all flex flex-col" style="transition-delay:.15s">
+        <div class="flex items-start justify-between">
+          <h3 class="font-display font-semibold text-2xl">Food Review Account</h3>
+          <svg class="w-5 h-5 text-muted group-hover:text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8"/></svg>
+        </div>
+        <p class="text-ink-soft mt-3 flex-grow">A personal project building a small but growing food-review following &mdash; sharpening my eye for storytelling, photography, and consistent content.</p>
+        <div class="flex flex-wrap gap-2 mt-5">
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">Content</span>
+          <span class="text-xs font-semibold text-accent bg-accent-tint rounded-full px-3 py-1">Social Media</span>
+        </div>
+        <a href="#" class="inline-flex items-center gap-1.5 text-sm font-semibold text-accent mt-6 hover:gap-2.5 transition-all">View Project <span aria-hidden="true">&rarr;</span></a>
+      </article>
+
+      <!-- ===== PROJECT CARD TEMPLATE — COPY THIS BLOCK TO ADD A NEW PROJECT ===== -->
+      <article class="reveal group bg-surface border border-dashed border-line rounded-2xl p-7 hover:border-accent transition-all flex flex-col items-center justify-center text-center min-h-[220px]" style="transition-delay:.2s">
+        <div class="w-11 h-11 grid place-items-center rounded-full border border-line text-muted mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
+        </div>
+        <h3 class="font-display font-semibold text-xl text-ink-soft">Add your next project</h3>
+        <p class="text-sm text-muted mt-2 max-w-xs">Duplicate any card above, then update the title, description, tags, and the &ldquo;View Project&rdquo; link.</p>
+      </article>
+      <!-- ===== END TEMPLATE ===== -->
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CONTACT + FOOTER
+       NOTE: GitHub Pages can't process forms by itself. The form below opens
+       the visitor's email app via "mailto" by default. To collect submissions
+       online instead, create a free Formspree form and follow the comment
+       near the <form> tag.
+  ========================================================================= -->
+  <section id="contact" class="relative z-10 bg-bg-alt border-t border-line">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-24 lg:py-32 grid lg:grid-cols-2 gap-16">
+
+      <!-- Left: invitation + social links -->
+      <div class="reveal">
+        <p class="text-sm font-semibold tracking-[0.25em] uppercase text-muted">05 &mdash; Contact</p>
+        <h2 class="font-display font-semibold text-4xl sm:text-5xl mt-4 leading-tight">Let&rsquo;s talk.</h2>
+        <p class="text-lg text-ink-soft mt-5 max-w-md">
+          Open to internships and opportunities in finance, consulting, and analytics.
+          The fastest way to reach me is email &mdash; I read everything.
+        </p>
+
+        <!-- EDIT LINK: your email address (also update the mailto in script.js) -->
+        <a href="mailto:arnoldhe2006@gmail.com" class="inline-block font-display italic text-2xl text-accent mt-8 hover:text-accent-soft">arnoldhe2006@gmail.com</a>
+
+        <!-- Social icons — EDIT LINK on each href -->
+        <div class="flex items-center gap-3 mt-8">
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/arnold-he" target="_blank" rel="noopener" aria-label="LinkedIn"
+             class="grid place-items-center w-11 h-11 rounded-full border border-line text-ink-soft hover:text-white hover:bg-accent hover:border-accent transition-all">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14H.2V8zm7.5 0h4.4v1.9h.06c.6-1.1 2.08-2.26 4.28-2.26 4.58 0 5.42 3 5.42 6.9V22h-4.6v-6.6c0-1.58-.03-3.6-2.2-3.6-2.2 0-2.54 1.72-2.54 3.49V22h-4.6V8z"/></svg>
+          </a>
+          <!-- GitHub -->
+          <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub"
+             class="grid place-items-center w-11 h-11 rounded-full border border-line text-ink-soft hover:text-white hover:bg-accent hover:border-accent transition-all">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.1 3.29 9.42 7.86 10.95.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.79 2.74 1.27 3.41.97.1-.76.41-1.27.74-1.56-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.42.36.8 1.08.8 2.18v3.23c0 .31.21.67.8.56A11.52 11.52 0 0023.5 12.02C23.5 5.74 18.27.5 12 .5z"/></svg>
+          </a>
+          <!-- Twitter / X -->
+          <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X (Twitter)"
+             class="grid place-items-center w-11 h-11 rounded-full border border-line text-ink-soft hover:text-white hover:bg-accent hover:border-accent transition-all">
+            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <!-- Email -->
+          <a href="mailto:arnoldhe2006@gmail.com" aria-label="Email"
+             class="grid place-items-center w-11 h-11 rounded-full border border-line text-ink-soft hover:text-white hover:bg-accent hover:border-accent transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: contact form -->
+      <!-- TO COLLECT SUBMISSIONS ONLINE:
+           1. Sign up at formspree.io and create a form (free).
+           2. Replace the line  id="contact-form"  with:
+              action="https://formspree.io/f/YOUR_ID" method="POST"
+           3. Delete the onsubmit handler in assets/script.js (the mailto fallback). -->
+      <form id="contact-form" class="reveal bg-surface border border-line rounded-2xl p-7 sm:p-8 space-y-5" style="transition-delay:.1s">
+        <div>
+          <label for="name" class="block text-sm font-semibold text-ink mb-2">Name</label>
+          <input id="name" name="name" type="text" required
+                 class="w-full rounded-xl bg-bg border border-line px-4 py-3 text-ink placeholder:text-muted focus:border-accent focus:ring-0 outline-none" placeholder="Your name" />
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-semibold text-ink mb-2">Email</label>
+          <input id="email" name="email" type="email" required
+                 class="w-full rounded-xl bg-bg border border-line px-4 py-3 text-ink placeholder:text-muted focus:border-accent focus:ring-0 outline-none" placeholder="you@example.com" />
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-semibold text-ink mb-2">Message</label>
+          <textarea id="message" name="message" rows="4" required
+                    class="w-full rounded-xl bg-bg border border-line px-4 py-3 text-ink placeholder:text-muted focus:border-accent focus:ring-0 outline-none resize-none" placeholder="Tell me about the opportunity..."></textarea>
+        </div>
+        <button type="submit"
+                class="w-full rounded-full bg-accent text-white px-7 py-3.5 text-sm font-semibold hover:bg-accent-soft hover:-translate-y-0.5 transition-all">
+          Send Message
+        </button>
+      </form>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-line">
+      <div class="max-w-6xl mx-auto px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted">
+        <p class="font-display">Arnold He</p>
+        <!-- Year auto-updates via script.js -->
+        <p>&copy; <span id="year"></span> Arnold He. Built with care.</p>
+      </div>
+    </footer>
+  </section>
+
+  <!-- Vanilla JS for interactions (relative path) -->
+  <script src="assets/script.js"></script>
+</body>
+</html>

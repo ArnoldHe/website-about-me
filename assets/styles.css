@@ -1,0 +1,106 @@
+/* ==========================================================================
+   styles.css — Custom styling layered on top of Tailwind
+   --------------------------------------------------------------------------
+   HOW TO EDIT:
+   - All colors live in the :root (light theme) and .dark (dark theme) blocks
+     below. Each color is written as "R G B" channels (no commas) so Tailwind
+     can apply transparency. To change a color, paste new RGB values — e.g.
+     a hex of #1F4D36 becomes "31 77 54". (Search "hex to rgb" if unsure.)
+   - Fonts are loaded in index.html via Google Fonts. To swap a font, change
+     the <link> in index.html AND the font-family values here.
+   ========================================================================== */
+
+/* ---------- THEME COLORS: LIGHT (default) ----------  (values are R G B) */
+:root {
+  --bg:          247 244 237;   /* page background (warm cream)  #F7F4ED */
+  --bg-alt:      252 250 244;   /* alternating section background #FCFAF4 */
+  --surface:     255 255 255;   /* cards / panels                #FFFFFF */
+  --ink:          28  27  24;   /* primary text (warm near-black)#1C1B18 */
+  --ink-soft:     74  72  66;   /* secondary text                #4A4842 */
+  --muted:       121 118 109;   /* labels, captions              #79766D */
+  --line:        229 224 212;   /* borders / dividers            #E5E0D4 */
+  --accent:       31  77  54;   /* brand accent (forest green)   #1F4D36 */
+  --accent-soft:  46 107  76;   /* accent hover                  #2E6B4C */
+  --accent-tint: 233 240 234;   /* faint accent fill for tags    #E9F0EA */
+  --shadow: 18px 18px 60px rgba(28, 27, 24, 0.08);
+}
+
+/* ---------- THEME COLORS: DARK (added to <html> by the toggle) ---------- */
+.dark {
+  --bg:           17  18  16;   /* #111210 */
+  --bg-alt:       22  23  15;   /* #16170F */
+  --surface:      27  29  22;   /* #1B1D16 */
+  --ink:         241 238 228;   /* #F1EEE4 */
+  --ink-soft:    200 196 183;   /* #C8C4B7 */
+  --muted:       143 139 126;   /* #8F8B7E */
+  --line:         43  45  36;   /* #2B2D24 */
+  --accent:      116 186 144;   /* #74BA90 (lighter sage for dark) */
+  --accent-soft: 138 203 166;   /* #8ACBA6 */
+  --accent-tint:  30  42  34;   /* #1E2A22 */
+  --shadow: 18px 18px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- BASE TYPOGRAPHY ---------- */
+body {
+  font-family: "Hanken Grotesk", sans-serif;   /* BODY FONT */
+  background-color: rgb(var(--bg));
+  color: rgb(var(--ink));
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.font-display {
+  font-family: "Fraunces", serif;              /* DISPLAY / HEADING FONT */
+  font-optical-sizing: auto;
+}
+
+/* ---------- SUBTLE GRAIN TEXTURE OVERLAY (adds depth, very subtle) ---------- */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- SCROLL-REVEAL ANIMATION (elements fade up as you scroll) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- HERO LOAD ANIMATION (staggered fade-up on page load) ---------- */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+  opacity: 0;
+  animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ---------- DECORATIVE ARC behind the hero photo ---------- */
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+.arc-spin { animation: spinSlow 38s linear infinite; }
+
+/* ---------- LINKS & FOCUS STATES ---------- */
+a { transition: color 0.25s ease; }
+:focus-visible { outline: 2px solid rgb(var(--accent)); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- CUSTOM SCROLLBAR (cosmetic) ---------- */
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: rgb(var(--bg)); }
+::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 99px; border: 3px solid rgb(var(--bg)); }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--muted)); }
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .animate-in, .arc-spin { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+}
